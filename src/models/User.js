@@ -75,6 +75,11 @@ const User = module.exports = sequelize.define('User', {
         defaultValue: 0,
         comment: '用户角色,0普通用户,1管理员'
       },
+    lastLogin: {
+        type: Sequelize.DATE,
+        field: 'f_user_lastLogin',
+        comment: '上次登录时间'
+    },
 },{
     tableName:'t_user',
     classMethods: {

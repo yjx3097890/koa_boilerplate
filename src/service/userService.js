@@ -48,7 +48,8 @@ userService.getById = function (id) {
 
 userService.updateById = function* (id, user) {
     let dbUser = yield userService.getById(id);
-    return dbUser.update(user);
+    return yield dbUser.update(user,
+        {fields: ['username', 'email', 'isChecked', 'name', 'phone', 'image', 'address']});
 
 };
 
@@ -65,14 +66,14 @@ userService.getByUsername = function (username) {
  * @param user
  * @returns {*}
  */
-userService.updatePasswordByIdAndPwd = function (id, oldPassword, newPassword) {
-    return userService.getById(id).then(function (dbUser) {
-        if (dbUser.password === utils.encryptStr(oldPassword)) {
-            return dbUser.update({password: newPassword}, {fields: ['password']});
-        } else {
-            return Promise.resolve({ok: false, error: 'OLDERROR'});
-        }
-    });
+userService.updatePasswordByIdAndPwd = function* (id, oldPassword, newPassword) {
+    let dbUser = yield userService.getById(id);
+    if (dbUser.password === utils.encryptStr(oldPassword)) {
+        return dbUser.update({password: newPassword}, {fields: ['password']});
+    } else {
+        return Promise.resolve({ok: false, error: 'OLDERROR'});
+    }
+
 };
 
 /**
@@ -124,16 +125,22 @@ userService.userTotal = function (option) {
  * @param username
  * @param password
  */
-userService.login = function (username, password) {
-    return userService.getByUsername(username).then(function(dbUser){
-        if (!dbUser) {
-            return Promise.resolve({ok: false, message: 'NOEXIST'});
-        } else if (dbUser.password === utils.encryptStr(password)) {
-            return Promise.resolve({ok: true, user: dbUser});
-        } else {
-            return Promise.resolve({ok: false, message: 'ERROR'});
-        }
-    });
+userService.login = function* (username, password) {
+    let dbUser = yield userService.getByUsername(username)
+    if (!dbUser) {
+        return {ok: false, message: 'NOEXIST'};
+    } else if (dbUser.password === utils.encryptStr(password)) {
+        return {ok: true, user: dbUser};
+    } else {
+        return {ok: false, message: 'ERROR'};
+    }
+
+};
+
+userService.registerLogin = function* (id) {
+    const dbUser = yield userService.getById(id);
+    return yield dbUser.update({lastLogin: Date()});
+
 };
 
 
