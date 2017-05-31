@@ -5,7 +5,7 @@ const path = require('path');
 
 const config = require('../config');
 const utils = require('./utils');
-var db = require('./db');
+const db = require('./db');
 
 module.exports = class Server {
 

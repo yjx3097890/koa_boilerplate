@@ -1,10 +1,14 @@
 {
-  "name": "koa_boilerplate",
+  "name": "temp",
   "version": "0.0.1",
   "private": true,
   "scripts": {
     "start": "node src/app.js",
-    "test": "mocha"
+    "test": "set NODE_ENV=test; ava",
+    "test:watch": "set NODE_ENV=test; ava --watch",
+    "createDB": "psql -U postgres -c 'CREATE DATABASE temp'",
+    "createDBDev": "psql -U postgres -c 'CREATE DATABASE \"temp-develop\"'",
+    "watch": "nodemon src/app.js"
   },
   "dependencies": {
     "co": "^4.6.0",
@@ -22,5 +26,16 @@
     "pg": "^6.1.2",
     "sequelize": "^3.30.1"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "ava": "^0.19.1",
+    "nyc": "^10.3.2",
+    "sinon": "^2.3.1"
+  },
+  "ava": {
+    "files": [
+      "test/*.js",
+      "!test/_*.js"
+    ],
+    "verbose": true
+  }
 }

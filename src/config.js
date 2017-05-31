@@ -7,7 +7,7 @@ const dbServer = 'localhost';
 config.developPort =  8080;
 config.port =  80;
 
-config.name =  'template';
+config.name =  'temp';
 
 
 config.dbConfig ={
@@ -73,5 +73,6 @@ config.pwdKey = 'iloveyou';
 config.logPath = path.join(__dirname, '../logs');
 
 config.frontPath = path.join(__dirname, '../public');
+
 
 

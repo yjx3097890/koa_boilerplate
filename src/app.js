@@ -12,14 +12,14 @@ if ( process.env.NODE_ENV !== 'production' ) {
     port = config.port;
 }
 
-const shambala = new Server(config.name, port);
+const temp = new Server(config.name, port);
 
 
-shambala.prepareData = function () {
+temp.prepareData = function () {
 
 };
 
-shambala.init = function () {
+temp.init = function () {
     this.useRequestLogger();
     this.handleError();
     this.loadStatic();
@@ -32,7 +32,7 @@ shambala.init = function () {
 };
 
 if (!module.parent) {
-    co(shambala.run());
+    co(temp.run());
 }
 
 
