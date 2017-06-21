@@ -142,6 +142,20 @@ module.exports = class Server {
         this.app.use(server(this.config.frontPath));
     }
 
+    loadSpaStatic() {
+
+        const spa = require('./spa');
+        const routes = ['((?!(api|public)).)*'];
+
+
+        this.app.use(spa(this.config.frontPath, {
+            indexes: ['front.html', 'index.html'],
+            routeBases: [ '/front', '/'], //首页路由, 前端路由也必须存在.并都以这个为开头
+            routes: routes
+        }));
+
+    }
+
     /**
      * 错误处理放在第一个中间件
      */

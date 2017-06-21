@@ -17,6 +17,18 @@ const temp = new Server(config.name, port);
 
 temp.prepareData = function () {
 
+    try {
+        fs.statSync(config.uploadPath)
+    } catch (err) {
+        fs.mkdirSync(config.uploadPath);
+        console.log('make folder uploads.')
+    }
+    try {
+        fs.statSync(config.tempPath)
+    } catch (err) {
+        fs.mkdirSync(config.tempPath);
+        console.log('make folder temp.')
+    }
 };
 
 temp.init = function () {
@@ -26,7 +38,6 @@ temp.init = function () {
     this.useCompress();
 
     this.useBodyParser();
-   // this.useCookieSession();
     this.usePGSession();
     this.loadRouters();
 };
